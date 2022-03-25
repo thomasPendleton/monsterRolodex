@@ -7,11 +7,10 @@ class App extends Component {
 
     this.state = {
       monsters: [],
-      filteredMonsters: [],
       searchString: '',
     }
     console.log('constructor')
-    // this.filter = this.filter.bind(this)
+    this.search = this.search.bind(this)
   }
 
   componentDidMount() {
@@ -21,7 +20,7 @@ class App extends Component {
       .then((data) =>
         this.setState(
           () => {
-            return { monsters: data, filteredMonsters: data }
+            return { monsters: data }
           },
           () => {
             // console.log(this.state.monsters)
@@ -30,27 +29,25 @@ class App extends Component {
       )
   }
 
-  // filter(e){
-  // //   console.log(e.target.value)
-  // this.setState(
-  //   () => {
-  //     // console.log(this.state.monsters);
-  //   return this.state.monsters.filter(monster => {
-  //     // console.log(monster.name)
-  //     return monster.name.indexOf(e.target.value) !== -1})
-  //   },
-  //   () => {
-  //
-  //   }
-  // )
-  // }
+  search(e) {
+    const searchString = e.target.value.toLocaleLowerCase()
+
+    this.setState(
+      () => {
+        return { searchString, }
+      },
+      () => {
+        console.log(this.state.monsters, this.state.searchString)
+      }
+    )
+  }
 
   render() {
     console.log('render')
     const filteredMonsters = this.state.monsters.filter((monster) =>
       monster.name.toLocaleLowerCase().includes(this.state.searchString)
     )
-    console.log(filteredMonsters);
+    console.log(filteredMonsters)
 
     return (
       <div className="App">
@@ -58,18 +55,7 @@ class App extends Component {
           className="search-box"
           type="search"
           placeholder="search monsters"
-          onChange={(e) => {
-            const searchString = e.target.value.toLocaleLowerCase()
-
-            this.setState(
-              () => {
-                return { searchString }
-              },
-              () => {
-                console.log(this.state.monsters, this.state.searchString)
-              }
-            )
-          }}
+          onChange={this.search}
         />
 
         {filteredMonsters.map((monster) => {
