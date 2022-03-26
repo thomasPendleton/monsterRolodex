@@ -62,7 +62,7 @@ class App extends Component {
           return (
             <div key={monster.id}>
               <h1>
-                {monster.name}: {monster.email}
+                {monster.name}
               </h1>
               <hr></hr>
             </div>
