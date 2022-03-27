@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import './App.css'
+import CardList from './components/card-list/card-list'
 
 class App extends Component {
   constructor() {
@@ -11,6 +12,7 @@ class App extends Component {
     }
     console.log('constructor')
     this.search = this.search.bind(this)
+    this.filteredMonstersFunc = this.filteredMonstersFunc.bind(this)
   }
 
   componentDidMount() {
@@ -42,11 +44,17 @@ class App extends Component {
     )
   }
 
+
+  filteredMonstersFunc() {
+      const filteredMonsters = this.state.monsters.filter((monster) =>
+      monster.name.toLocaleLowerCase().includes(this.state.searchString))
+      return filteredMonsters
+  }
+
   render() {
     console.log('render')
-    const filteredMonsters = this.state.monsters.filter((monster) =>
-      monster.name.toLocaleLowerCase().includes(this.state.searchString)
-    )
+    
+    
     console.log(filteredMonsters)
 
     return (
@@ -58,16 +66,8 @@ class App extends Component {
           onChange={this.search}
         />
 
-        {filteredMonsters.map((monster) => {
-          return (
-            <div key={monster.id}>
-              <h1>
-                {monster.name}
-              </h1>
-              <hr></hr>
-            </div>
-          )
-        })}
+        
+        <CardList filtered={this.filteredMonstersFunc}/>
       </div>
     )
   }
