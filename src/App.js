@@ -10,13 +10,12 @@ class App extends Component {
       monsters: [],
       searchString: '',
     }
-    console.log('constructor')
+
     this.search = this.search.bind(this)
-    this.filteredMonstersFunc = this.filteredMonstersFunc.bind(this)
+
   }
 
   componentDidMount() {
-    console.log('component did mount')
     fetch('https://jsonplaceholder.typicode.com/users')
       .then((response) => response.json())
       .then((data) =>
@@ -24,9 +23,7 @@ class App extends Component {
           () => {
             return { monsters: data }
           },
-          () => {
-            // console.log(this.state.monsters)
-          }
+          () => {}
         )
       )
   }
@@ -36,7 +33,7 @@ class App extends Component {
 
     this.setState(
       () => {
-        return { searchString, }
+        return { searchString }
       },
       () => {
         console.log(this.state.monsters, this.state.searchString)
@@ -45,17 +42,12 @@ class App extends Component {
   }
 
 
-  filteredMonstersFunc() {
-      const filteredMonsters = this.state.monsters.filter((monster) =>
-      monster.name.toLocaleLowerCase().includes(this.state.searchString))
-      return filteredMonsters
-  }
-
   render() {
-    console.log('render')
-    
-    
-    console.log(filteredMonsters)
+    const filteredMonsters = this.state.monsters.filter((monster) =>
+      monster.name.toLocaleLowerCase().includes(this.state.searchString)
+    )
+
+    const { search } = this
 
     return (
       <div className="App">
@@ -63,11 +55,10 @@ class App extends Component {
           className="search-box"
           type="search"
           placeholder="search monsters"
-          onChange={this.search}
+          onChange={search}
         />
 
-        
-        <CardList filtered={this.filteredMonstersFunc}/>
+        <CardList monsterList={filteredMonsters} />
       </div>
     )
   }
