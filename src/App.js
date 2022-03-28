@@ -45,10 +45,11 @@ class App extends Component {
     const filteredMonsters = this.state.monsters.filter((monster) =>
       monster.name.toLocaleLowerCase().includes(this.state.searchString)
     )
+    const { search } = this
 
     return (
       <div className="App">
-        <SearchBox search={this.search} />
+        <SearchBox onChangeHandler={search} />
         <CardList monsterList={filteredMonsters} />
       </div>
     )
